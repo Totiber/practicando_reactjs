@@ -14,5 +14,5 @@ const platforms = 'platforms' // https://api.rawg.io/api/platforms
 // details of game https://api.rawg.io/api/games/%7Bid%7D
 
 export const listGamesGet = () => `${base_url}/${listGames}`;
-export const listGamesGet2 = (idGame) => `${base_url}/${listGames}/${idGame}`;
+export const listGamesGet2 = (idGame) => `${base_url}/${listGames}/${idGame}/${screenshots}`;
 export const gameDetailsGet = (idGame) => `${base_url}/${listGames}/${idGame}`;

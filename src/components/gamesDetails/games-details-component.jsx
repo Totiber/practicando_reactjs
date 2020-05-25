@@ -38,7 +38,7 @@ export default class GameDetails extends Component {
         console.log(listGamesGet2(id_game));
         const res2 = await fetch(listGamesGet2(id_game));
         const {results} = await res2.json();
-        //this.setState({lista : results});
+        this.setState({lista : results});
 
         console.log(results)
     }
@@ -63,17 +63,14 @@ export default class GameDetails extends Component {
                     {this.state.description}
                 </p>
 
-                <button onClick = {this.botonPrueba}>
-                    Probar Array
-                </button>
+            
 
-
-                {/* <div>
+                <div>
                     {
                         this.state.lista.map(juego => {
 
-                            return  <div>
-                                        <img className = 'img-bg' src = {juego.background_image}></img>
+                            return  <div key = {juego.id}>
+                                        <img className = 'img-bg' src = {juego.image}></img>
                                     </div>
 
                                 //SOLUCION2:
@@ -83,7 +80,7 @@ export default class GameDetails extends Component {
                             
                         })
                     }
-                </div> */}
+                </div>
             </div>
         )
     }
