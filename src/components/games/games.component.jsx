@@ -1,8 +1,9 @@
 import React from 'react';
 import { render } from 'react-dom';
-import { listGamesGet} from '../../constants/constant.js';
+import { listGamesGet, searchGet} from '../../constants/constant.js';
 import Game from '../game/game.js';
 import { Link } from 'react-router-dom';
+import GameSearch from '../searchForm/gameSearch.js';
 
 class Games extends React.Component{
 
@@ -25,14 +26,25 @@ class Games extends React.Component{
     }
     // Boton para probar si funciona la consulta
     
-    botonConsola = () => {
+    getConsulta = async (name) => {
 
-        console.log(this.state.listaJuegos)
+        const respuesta = await fetch(searchGet(name));
+        const {results} = await respuesta.json();
+        this.setState({listaJuegos : results});
+
+        console.log(results);
 
     }
 
     render(){
         return  <div>
+
+                <GameSearch
+                
+                            buscar = {this.getConsulta}
+
+                />
+            
                    <ul>
                        {
                            this.state.listaJuegos.map(juego => {
