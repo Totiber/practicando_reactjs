@@ -1,87 +1,43 @@
-import React, { Component } from 'react'
-import { gameDetailsGet } from '../../constants/constant.js';
-import { listGamesGet2 } from '../../constants/constant.js';
-import InfoAdicional from './infoAdicional.js';
-
-export default class GameDetails extends Component {
-
-    state = {
-
-        name : '' ,
-        description : '' ,
-        lista : []
-
-    }
-
-    componentDidMount() {
-
-        this.getData();
-        this.getScreenshot();
-
-    }
-
-    getData = async () => {
-
-        const  game_id = window.location.pathname.split('/') [3];
-
-        const res = await fetch (gameDetailsGet(game_id));
-        const {name, description} = await res.json();
-        this.setState({name : name, description : description});
+import React, { useContext, useEffect } from 'react';
+import { GameContext } from '../../context/GameContext';
 
 
-    } 
+const GameDetails = () => {
 
-    getScreenshot = async () => {
+    const { detalleJuego, detalleGame, screenshots, getScreenshot } = useContext(GameContext);
 
-        const id_game = window.location.pathname.split('/') [3];
-        
-        console.log(listGamesGet2(id_game));
-        const res2 = await fetch(listGamesGet2(id_game));
-        const {results} = await res2.json();
-        this.setState({lista : results});
-
-        console.log(results)
-    }
-    
-    botonPrueba() {
-
-        console.log("Boton funciona");
-        console.log(this.state.lista);
-        
-    }
-
-    render() {
+    useEffect(() => {
+        detalleGame();
+        getScreenshot();
+    }, [])
 
 
         return (
             <div>
+                <img src = {detalleJuego.background_image} className = 'img-bg'></img>
                 <h1>
-                    {this.state.name}
+                    {detalleJuego.name}
                 </h1>
 
                 <p>
-                    {this.state.description}
+                    {detalleJuego.description}
                 </p>
-
             
+                {console.log({screenshots})}
 
                 <div>
                     {
-                        this.state.lista.map(juego => {
+                        screenshots.map(juego => {
 
                             return  <div key = {juego.id}>
                                         <img className = 'img-bg' src = {juego.image}></img>
                                     </div>
-
-                                //SOLUCION2:
-                                // <InfoAdicional
-                                //         imagen = {juego.background_image}
-                                // />
-                            
                         })
                     }
                 </div>
             </div>
         )
-    }
+    
 }
+
+export default GameDetails;

@@ -18,6 +18,6 @@ const search = 'search';
 
 
 export const listGamesGet = () => `${base_url}/${listGames}`;
-export const listGamesGet2 = (idGame) => `${base_url}/${listGames}/${idGame}/${screenshots}`;
+export const screenshotsGet = (idGame) => `${base_url}/${listGames}/${idGame}/${screenshots}`;
 export const gameDetailsGet = (idGame) => `${base_url}/${listGames}/${idGame}`;
 export const searchGet = (name) => `${base_url}/${listGames}?${search}=${name}`;

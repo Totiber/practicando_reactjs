@@ -4,6 +4,7 @@ import './App.css';
 import Games from './components/games/games.component.jsx';
 import GameDetails from './components/gamesDetails/games-details-component.jsx';
 import GameSearch from './components/searchForm/gameSearch';
+import GameContextProvider from './context/GameContext';
 
 
 const App = () => (
@@ -11,7 +12,7 @@ const App = () => (
   <BrowserRouter>
       <Switch>
 
-        
+        <GameContextProvider>
           <Route exact path = '/'>
 
               <Games/>
@@ -23,7 +24,7 @@ const App = () => (
               <GameDetails/>
 
           </Route>
-
+        </GameContextProvider>
 
       </Switch>
   </BrowserRouter>  

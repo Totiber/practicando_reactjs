@@ -1,66 +1,52 @@
-import React from 'react';
-import { render } from 'react-dom';
-import { listGamesGet, searchGet} from '../../constants/constant.js';
+import React, { useContext } from 'react';
+import { GameContext } from '../../context/GameContext';
 import Game from '../game/game.js';
 import { Link } from 'react-router-dom';
 import GameSearch from '../searchForm/gameSearch.js';
 
-class Games extends React.Component{
-
-    state = {
-
-        listaJuegos : []
-
-    }
-    componentDidMount() {
-        this.getData();
-    } 
-
-    getData = async () => {
-
-        const response = await fetch(listGamesGet());
-        const {results} = await response.json();
-        this.setState({listaJuegos : results});
 
 
-    }
-    // Boton para probar si funciona la consulta
+
+
+const Games = () => {
     
-    getConsulta = async (name) => {
+    const { listaJuegos } = useContext(GameContext);
+    const { buscarGet } = useContext(GameContext);
 
-        const respuesta = await fetch(searchGet(name));
-        const {results} = await respuesta.json();
-        this.setState({listaJuegos : results});
 
-        console.log(results);
 
-    }
 
-    render(){
-        return  <div>
+    return  ( 
+    <       div>
 
-                <GameSearch
-                
-                            buscar = {this.getConsulta}
+         <GameSearch
+                    buscar = {buscarGet}
+        />
+     
+       
+            <ul>
+               {
+                   listaJuegos.results.map(juego => {
+                       
+                       return (
+                           
+                        <Link key = {juego.id} to = {'/game/details/' + juego.id }>
+                            <Game 
+                                    name = {juego.name} 
+                                    backgroundImage = {juego.background_image}
+                            />
+                        </Link>
+                       )
+                   })
+               }
+           </ul> 
+        </div>
 
-                />
-            
-                   <ul>
-                       {
-                           this.state.listaJuegos.map(juego => {
-                               
-                               return (
-                               <Link key = {juego.id} to = {'/game/details/' + juego.id }>
-                                    <Game 
-                                            name = {juego.name} 
-                                            backgroundImage = {juego.background_image}
-                                    />
-                                </Link>
-                               )
-                           })
-                       }
-                   </ul>
-                </div>
-    }
+)
+
+
 }
+
+
+       
 export default Games;
