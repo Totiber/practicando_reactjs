@@ -6,9 +6,11 @@ export const GameContext = createContext();
 const GameContextProvider = ({ children }) => {
 
 // States centrales
-    const [listaJuegos, setListaJuegos] = useState({ results: [] });
-    const [detalleJuego, setDetalle] = useState({});
-    const [screenshots, setScreenshots] = useState([]);
+    const [ listaJuegos, setListaJuegos ] = useState({ results: [] });
+    const [ detalleJuego, setDetalle ] = useState({});
+
+    const [ screenshots, setScreenshots ] = useState([]);
+    const [ doneScreenshots, setDoneScreenshots ] = useState(false);
 
 
 
@@ -16,6 +18,7 @@ const GameContextProvider = ({ children }) => {
         useEffect(() => {
             getGamesList();
         }, []);
+
 
 
         const getGamesList = () => {
@@ -30,6 +33,7 @@ const GameContextProvider = ({ children }) => {
                 })
         }
 
+
         const detalleGame = () => {
 
             const game_id = window.location.pathname.split('/') [3];
@@ -39,19 +43,24 @@ const GameContextProvider = ({ children }) => {
                 .then (({ name, description, background_image }) => {
                     setDetalle({ name, description, background_image })
                 })
-
         }
+
 
         const getScreenshot = () => {
 
+            setDoneScreenshots(false);
             const id_game = window.location.pathname.split('/') [3];
-
+             
             fetch(screenshotsGet(id_game))
                 .then (res => res.json())
                 .then (({ results }) => {
-                    setScreenshots({ results })
+                    setScreenshots( results )
+                    setDoneScreenshots(true);
+
+                    console.log(results)
                 })
         }
+
 
         const buscarGet = (name) => {
 
@@ -71,7 +80,8 @@ const GameContextProvider = ({ children }) => {
             detalleGame,
             screenshots,
             getScreenshot,
-            buscarGet
+            buscarGet,
+            doneScreenshots
         }}>
             {children}
         </GameContext.Provider>

@@ -4,7 +4,7 @@ import { GameContext } from '../../context/GameContext';
 
 const GameDetails = () => {
 
-    const { detalleJuego, detalleGame, screenshots, getScreenshot } = useContext(GameContext);
+    const { detalleJuego, detalleGame, screenshots, getScreenshot, doneScreenshots } = useContext(GameContext);
 
     useEffect(() => {
         detalleGame();
@@ -22,17 +22,21 @@ const GameDetails = () => {
                 <p>
                     {detalleJuego.description}
                 </p>
-            
-                {console.log({screenshots})}
+        
 
                 <div>
                     {
-                        screenshots.map(juego => {
+                        doneScreenshots === true ?
+                            screenshots.map(juego => {
 
-                            return  <div key = {juego.id}>
-                                        <img className = 'img-bg' src = {juego.image}></img>
-                                    </div>
-                        })
+                                return  <div key = {juego.id}>
+                                            <img className = 'img-bg' src = {juego.image}></img>
+                                        </div>
+                            })
+                        
+                        :   <div>
+                                Cargando... 
+                            </div>
                     }
                 </div>
             </div>
